@@ -430,6 +430,14 @@
                                             <action selector="updateUser:" destination="GDA-lh-zzX" eventType="touchUpInside" id="7BI-f0-vfA"/>
                                         </connections>
                                     </button>
+                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="person.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="5Th-Z7-9a9">
+                                        <rect key="frame" x="120" y="8" width="162" height="162"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="p2o-g4-waT" appends="YES" id="cct-FZ-F5C"/>
+                                        </connections>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
@@ -450,12 +458,18 @@
                         <outlet property="genderImageView" destination="F4I-sc-lja" id="xZw-po-Hq4"/>
                         <outlet property="genderSegmentedControl" destination="UHl-f4-Ocq" id="iaU-Q5-CcM"/>
                         <outlet property="lastNameTextField" destination="3Je-QP-WNV" id="sXC-bY-rAG"/>
+                        <outlet property="profileImageView" destination="5Th-Z7-9a9" id="h9h-M6-eae"/>
                         <outlet property="usernameTextField" destination="Zst-lO-Ia5" id="Vgq-qH-17M"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Vf-Hb-EWT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="p2o-g4-waT">
+                    <connections>
+                        <action selector="selectProfileImage:" destination="GDA-lh-zzX" id="FZc-md-2KN"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-37" y="2218"/>
+            <point key="canvasLocation" x="-37.31343283582089" y="2217.391304347826"/>
         </scene>
         <!--Settings-->
         <scene sceneID="GFr-o7-aJ5">
@@ -609,6 +623,7 @@
         <image name="house.fill" catalog="system" width="128" height="104"/>
         <image name="logo-placeholder" width="200" height="200"/>
         <image name="person" catalog="system" width="128" height="121"/>
+        <image name="person.circle.fill" catalog="system" width="128" height="123"/>
         <image name="person.fill" catalog="system" width="128" height="120"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

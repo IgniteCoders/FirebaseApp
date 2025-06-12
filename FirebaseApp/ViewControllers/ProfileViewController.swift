@@ -9,7 +9,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     // MARK: Outlets
     
@@ -20,6 +20,8 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var genderImageView: UIImageView!
     @IBOutlet weak var birthdayDatePicker: UIDatePicker!
     
+    @IBOutlet weak var profileImageView: UIImageView!
+    
     // MARK: Properties
     
     var user: User!
@@ -28,6 +30,9 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        profileImageView.roundCorners()
+        profileImageView.setBorder(width: 3, color: UIColor.systemBlue.cgColor)
+        
         getUserData()
     }
     
@@ -50,6 +55,14 @@ class ProfileViewController: UIViewController {
                     case .male: 0
                     case .female: 1
                     default: 2
+                    }
+                    
+                    /*if let profileImage = self.user.profileImageUrl {
+                        self.profileImageView.loadFrom(url: profileImage)
+                    }*/
+                    
+                    if let profileImage = self.user.profileImage?.imageFromBase64 {
+                        self.profileImageView.image = profileImage
                     }
                 }
             } catch {
@@ -121,6 +134,43 @@ class ProfileViewController: UIViewController {
         }
     }
 
+    @IBAction func selectProfileImage(_ sender: Any) {
+        let alertController = UIAlertController(title: "Select profile image", message: nil, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in
+            let picker = UIImagePickerController()
+            picker.allowsEditing = true
+            picker.delegate = self
+            picker.sourceType = .camera
+            self.present(picker, animated: true)
+        }))
+        alertController.addAction(UIAlertAction(title: "Gallery", style: .default, handler: { _ in
+            let picker = UIImagePickerController()
+            picker.allowsEditing = true
+            picker.delegate = self
+            picker.sourceType = .photoLibrary
+            self.present(picker, animated: true)
+        }))
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+            alertController.dismiss(animated: true)
+        }))
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    // MARK: ImagePicker Delegate
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let image = info[.editedImage] as? UIImage else { return }
+        
+        let imageResized = image.resizeImage(CGFloat(200), opaque: true)
+        
+        profileImageView.image = imageResized
+        
+        user.profileImage = imageResized.base64
+        
+        print("Profile image size: \(user.profileImage?.count)")
+
+        dismiss(animated: true)
+    }
     /*
     // MARK: - Navigation
 

@@ -16,6 +16,7 @@ struct User: Codable {
     var birthday: Date?
     var provider: LoginProvider
     var profileImageUrl: String?
+    var profileImage: String?
 }
 
 enum Gender: String, Codable {
